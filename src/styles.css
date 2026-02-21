@@ -3,3 +3,45 @@
     padding: 0;
     box-sizing: border-box;
 }
+.container{
+    background-color: red;
+}
+.sidebar{
+    background-color: orange;
+}
+.content{
+    background-color: blue;
+}
+dialog{
+    margin: auto auto;
+    height: 50%;
+    width: 50%;
+    border: 2px solid black;
+    border-radius: 20px;
+}
+form{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: repeat(8, 1fr);
+    gap: 15px;
+    padding: 3%;
+}
+#lowPriority{
+    margin-left: 20px;
+    margin-right: 10px;
+}
+#highPriority{
+    margin-right: 10px;
+}
+#submit{
+    grid-area: 7 / 2 / 8 / 3;
+    justify-self: end;
+    width: 125px;
+    height: 25px;
+}
+#exitForm{
+    margin: 5px;
+    padding: 2px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
