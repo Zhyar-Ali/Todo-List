@@ -14,7 +14,8 @@ export const layout = (() => {
     addPopUp.classList.add("addPopUp");
 
     const addBtn = document.createElement("button");
-    addBtn.innerHTML = "add";
+    addBtn.classList.add("addBtn");
+    addBtn.innerHTML = "+";
     addPopUp.append(addBtn);
 
     sidebar.append(folders, addPopUp);

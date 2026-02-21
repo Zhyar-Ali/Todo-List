@@ -3,14 +3,35 @@
     padding: 0;
     box-sizing: border-box;
 }
-.container{
+#container{
     background-color: red;
+    display: grid;
+    height: 100vh;
+    width: 100vw;
+    grid-template-columns: 1fr 4fr;
 }
 .sidebar{
-    background-color: orange;
+    background-color: rgb(110, 95, 68);
+    display: grid;
+    grid-template-rows: 5fr 1fr;
+}
+.addPopUp{
+    align-self: end;
+    justify-self: end;
+    padding: 20px;
+}
+.addBtn{
+    height: 50px;
+    width: 50px;
+    border: 2px solid black;
+    border-radius: 30px;
+    font-size: 40px;
+}
+.addBtn:hover{
+    cursor: pointer;
 }
 .content{
-    background-color: blue;
+    background-color: rgb(65, 65, 80);
 }
 dialog{
     margin: auto auto;
