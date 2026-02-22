@@ -1,4 +1,8 @@
+import createTask from "./todos.js";
+
 export const layout = (() => {
+
+    const content = document.createElement("div");
 
     const load = () => {
     const body = document.querySelector("body");
@@ -20,7 +24,6 @@ export const layout = (() => {
 
     sidebar.append(folders, addPopUp);
 
-    const content = document.createElement("div");
     content.classList.add("content");
 
     container.append(sidebar, content);
@@ -45,9 +48,11 @@ export const layout = (() => {
         dialog.close();
     });
 
+    getInfo.submit(createForm.submitButton);
+
     };
 
-    return {load};
+    return {load, content};
 
 })();
 
@@ -55,6 +60,7 @@ export const layout = (() => {
 const createForm = (() => {
 
     const form = document.createElement("form");
+    const submitButton = document.createElement("button");
 
     const create = () => {
 
@@ -130,7 +136,6 @@ const createForm = (() => {
         radioDiv.classList.add("radioDiv");
         radioDiv.append(inputHighPriority,highPriority,inputLowPriority,lowPriority)
 
-        const submitButton = document.createElement("button");
         submitButton.innerHTML = "Add Task";
         submitButton.setAttribute("type","submit");
         submitButton.setAttribute("id","submit");
@@ -138,5 +143,36 @@ const createForm = (() => {
         form.append(title,inputTitle, description,inputDescription, year,inputYear, month,inputMonth, day,inputDay, priority,radioDiv, submitButton);
     };
 
-    return { form, create };
+    return { form, create, submitButton };
+})();
+
+const getInfo = (() => {
+
+    function submitClick(event){
+        event.preventDefault();
+
+        const titleV = document.getElementById("title").value;
+        const descriptionV = document.getElementById("description").value;
+        const yearV = document.getElementById("year").value;
+        const monthV = document.getElementById("month").value;
+        const dayV = document.getElementById("day").value;
+        const priorityV = document.querySelector('input[name="priority"]:checked').value;
+
+        const t1 = createTask(titleV, descriptionV, yearV, monthV, dayV, priorityV);
+
+        const p = document.createElement("p");
+        p.innerText = t1.formatTask;
+
+        const div = document.createElement("div");
+        div.classList.add("tasks");
+        div.appendChild(p);
+
+        layout.content.append(div);
+    }
+
+    const submit = (button) => {
+        button.addEventListener("click", submitClick);
+    };
+
+    return { submit };
 })();

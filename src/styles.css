@@ -30,15 +30,13 @@
 .addBtn:hover{
     cursor: pointer;
 }
-.content{
-    background-color: rgb(65, 65, 80);
-}
 dialog{
     margin: auto auto;
     height: 50%;
     width: 50%;
     border: 2px solid black;
     border-radius: 20px;
+    opacity: 80%;
 }
 form{
     display: grid;
@@ -65,4 +63,18 @@ form{
     padding: 2px;
     border: 1px solid black;
     border-radius: 5px;
+}
+.content{
+    background-color: rgb(65, 65, 80);
+    display: grid;
+    grid-template-columns: repeat(auto-fit,350px);
+    grid-template-rows: repeat(auto-fit,150px);
+    gap: 2%;
+}
+.tasks{
+    width: fit-content;
+    height: fit-content;
+    padding: 10%;
+    border: 2px solid rgb(255, 0, 0);
+    background-color: wheat;
 }
