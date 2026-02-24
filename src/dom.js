@@ -61,14 +61,16 @@ const createForm = (() => {
 
     const form = document.createElement("form");
     const submitButton = document.createElement("button");
+    const inputTitle = document.createElement("input");
+    const inputDescription = document.createElement("input");
+    const inputDate = document.createElement("input");
 
     const create = () => {
 
         const title = document.createElement("label");
         title.innerHTML = "Title: ";
         title.htmlFor = "title";
-
-        const inputTitle = document.createElement("input");
+        
         inputTitle.setAttribute("type", "text");
         inputTitle.setAttribute("id", "title");
         inputTitle.setAttribute("name", "title");
@@ -77,7 +79,6 @@ const createForm = (() => {
         description.innerHTML = "Description: ";
         description.htmlFor = "description";
 
-        const inputDescription = document.createElement("input");
         inputDescription.setAttribute("type", "text");
         inputDescription.setAttribute("id", "description");
         inputDescription.setAttribute("name", "description");
@@ -86,7 +87,6 @@ const createForm = (() => {
         date.innerHTML = "Due Date: ";
         date.htmlFor = "date";
 
-        const inputDate = document.createElement("input");
         inputDate.setAttribute("type", "date");
         inputDate.setAttribute("id", "date");
         inputDate.setAttribute("name", "date");
@@ -125,7 +125,7 @@ const createForm = (() => {
         form.append(title,inputTitle, description,inputDescription, date,inputDate,  priority,radioDiv, submitButton);
     };
 
-    return { form, create, submitButton };
+    return { form, create, submitButton, inputTitle, inputDescription, inputDate };
 })();
 
 const getInfo = (() => {
@@ -155,12 +155,29 @@ const getInfo = (() => {
             div.remove();
         }
 
+        const editbtn = document.createElement("button");
+
         function expand() {
             if (p.innerText === `${titleV}\nDue Date: ${dateV}`){
                 p.innerText = t1.formatTask;
+                editbtn.innerText = "edit";
+                div.append(editbtn);
             }else if (p.innerText === t1.formatTask){
                 p.innerText =  `${titleV}\nDue Date: ${dateV}`;
+                editbtn.remove();
             }
+        }
+
+        /*both dialogs act the same, make this one only edit and remember the values of the
+        past values....if click edit then click + , the values go to the + aswell!*/
+        function edit() {
+            const dialog = document.querySelector("dialog");
+
+            dialog.showModal();
+            createForm.inputTitle.setAttribute("value", titleV);
+            createForm.inputDescription.setAttribute("value", descriptionV);
+            createForm.inputDate.setAttribute("value", dateV);
+            p.innerText = `${document.getElementById("title").value}`;
         }
 
         div.append(rmBtn, p);
@@ -172,6 +189,8 @@ const getInfo = (() => {
         rmBtn.addEventListener("click", rm);
 
         div.addEventListener("click", expand);
+
+        editbtn.addEventListener("click", edit);
 
     }
 
