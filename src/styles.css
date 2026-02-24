@@ -32,8 +32,8 @@
 }
 dialog{
     margin: auto auto;
-    height: 50%;
-    width: 50%;
+    height: 35%;
+    width: 35%;
     border: 2px solid black;
     border-radius: 20px;
     opacity: 80%;
@@ -41,7 +41,7 @@ dialog{
 form{
     display: grid;
     grid-template-columns: 1fr 2fr;
-    grid-template-rows: repeat(8, 1fr);
+    grid-template-rows: repeat(5, 1fr);
     gap: 15px;
     padding: 3%;
 }
@@ -53,7 +53,7 @@ form{
     margin-right: 10px;
 }
 #submit{
-    grid-area: 7 / 2 / 8 / 3;
+    grid-area: 5 / 2 / 6 / 3;
     justify-self: end;
     width: 125px;
     height: 25px;

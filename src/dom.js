@@ -142,7 +142,7 @@ const getInfo = (() => {
 
         const p = document.createElement("p");
         p.classList.add("text");
-        p.innerText = t1.formatTask;
+        p.innerText =  `${titleV}\nDue Date: ${dateV}`;
 
         const div = document.createElement("div");
         div.classList.add("tasks");
@@ -151,8 +151,16 @@ const getInfo = (() => {
         rmBtn.innerText = "X";
         rmBtn.classList.add("rmBtn");
 
-        function rm  () {
+        function rm () {
             div.remove();
+        }
+
+        function expand() {
+            if (p.innerText === `${titleV}\nDue Date: ${dateV}`){
+                p.innerText = t1.formatTask;
+            }else if (p.innerText === t1.formatTask){
+                p.innerText =  `${titleV}\nDue Date: ${dateV}`;
+            }
         }
 
         div.append(rmBtn, p);
@@ -160,7 +168,11 @@ const getInfo = (() => {
         createForm.form.reset();
 
         layout.content.append(div);
+
         rmBtn.addEventListener("click", rm);
+
+        div.addEventListener("click", expand);
+
     }
 
     const submit = (button) => {
