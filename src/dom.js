@@ -82,32 +82,14 @@ const createForm = (() => {
         inputDescription.setAttribute("id", "description");
         inputDescription.setAttribute("name", "description");
 
-        const year = document.createElement("label");
-        year.innerHTML = "Due Year: ";
-        year.htmlFor = "year";
+        const date = document.createElement("label");
+        date.innerHTML = "Due Date: ";
+        date.htmlFor = "date";
 
-        const inputYear = document.createElement("input");
-        inputYear.setAttribute("type", "text");
-        inputYear.setAttribute("id", "year");
-        inputYear.setAttribute("name", "year");
-
-        const month = document.createElement("label");
-        month.innerHTML = "Due Month: ";
-        month.htmlFor = "month";
-
-        const inputMonth = document.createElement("input");
-        inputMonth.setAttribute("type", "text");
-        inputMonth.setAttribute("id", "month");
-        inputMonth.setAttribute("name", "month");
-
-        const day = document.createElement("label");
-        day.innerHTML = "Due Day: ";
-        day.htmlFor = "day";
-
-        const inputDay = document.createElement("input");
-        inputDay.setAttribute("type", "text");
-        inputDay.setAttribute("id", "day");
-        inputDay.setAttribute("name", "day");
+        const inputDate = document.createElement("input");
+        inputDate.setAttribute("type", "date");
+        inputDate.setAttribute("id", "date");
+        inputDate.setAttribute("name", "date");
 
         const priority = document.createElement("p");
         priority.innerHTML = "priority: ";
@@ -140,7 +122,7 @@ const createForm = (() => {
         submitButton.setAttribute("type","submit");
         submitButton.setAttribute("id","submit");
 
-        form.append(title,inputTitle, description,inputDescription, year,inputYear, month,inputMonth, day,inputDay, priority,radioDiv, submitButton);
+        form.append(title,inputTitle, description,inputDescription, date,inputDate,  priority,radioDiv, submitButton);
     };
 
     return { form, create, submitButton };
@@ -153,21 +135,32 @@ const getInfo = (() => {
 
         const titleV = document.getElementById("title").value;
         const descriptionV = document.getElementById("description").value;
-        const yearV = document.getElementById("year").value;
-        const monthV = document.getElementById("month").value;
-        const dayV = document.getElementById("day").value;
+        const dateV = document.getElementById("date").value;
         const priorityV = document.querySelector('input[name="priority"]:checked').value;
 
-        const t1 = createTask(titleV, descriptionV, yearV, monthV, dayV, priorityV);
+        const t1 = createTask(titleV, descriptionV, dateV, priorityV);
 
         const p = document.createElement("p");
+        p.classList.add("text");
         p.innerText = t1.formatTask;
 
         const div = document.createElement("div");
         div.classList.add("tasks");
-        div.appendChild(p);
+
+        const rmBtn = document.createElement("button");
+        rmBtn.innerText = "X";
+        rmBtn.classList.add("rmBtn");
+
+        function rm  () {
+            div.remove();
+        }
+
+        div.append(rmBtn, p);
+
+        createForm.form.reset();
 
         layout.content.append(div);
+        rmBtn.addEventListener("click", rm);
     }
 
     const submit = (button) => {

@@ -70,11 +70,18 @@ form{
     grid-template-columns: repeat(auto-fit,350px);
     grid-template-rows: repeat(auto-fit,150px);
     gap: 2%;
+    padding: 1%;
 }
 .tasks{
-    width: fit-content;
+    width: auto;
     height: fit-content;
-    padding: 10%;
     border: 2px solid rgb(255, 0, 0);
     background-color: wheat;
+}
+.text{
+    margin: 5%;
+}
+.rmBtn{
+    margin: 2%;
+    padding: 1px;
 }
