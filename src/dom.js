@@ -50,6 +50,23 @@ export const layout = (() => {
 
     getInfo.submit(createForm.submitButton);
 
+
+
+    const dialog2 = document.createElement("dialog");
+    dialog2.setAttribute("id","dialog2");
+
+    const exitButton2 = document.createElement("button");
+    exitButton2.innerHTML = "X";
+    exitButton2.setAttribute("type","button");
+    exitButton2.addEventListener("click", () => {
+        dialog2.close();
+    });
+
+    editform.create()
+
+    dialog2.append(exitButton2, editform.form);
+    body.append(dialog2);
+
     };
 
     return {load, content};
@@ -130,6 +147,7 @@ const createForm = (() => {
 
 const getInfo = (() => {
 
+
     function submitClick(event){
         event.preventDefault();
 
@@ -142,6 +160,8 @@ const getInfo = (() => {
 
         const p = document.createElement("p");
         p.classList.add("text");
+        //id is new
+        p.setAttribute("id", `${titleV}`);
         p.innerText =  `${titleV}\nDue Date: ${dateV}`;
 
         const div = document.createElement("div");
@@ -156,11 +176,10 @@ const getInfo = (() => {
         }
 
         const editbtn = document.createElement("button");
-
+        editbtn.innerText = "edit";
         function expand() {
             if (p.innerText === `${titleV}\nDue Date: ${dateV}`){
-                p.innerText = t1.formatTask;
-                editbtn.innerText = "edit";
+                p.innerText = t1.formatTask;   
                 div.append(editbtn);
             }else if (p.innerText === t1.formatTask){
                 p.innerText =  `${titleV}\nDue Date: ${dateV}`;
@@ -168,17 +187,19 @@ const getInfo = (() => {
             }
         }
 
-        /*both dialogs act the same, make this one only edit and remember the values of the
-        past values....if click edit then click + , the values go to the + aswell!*/
+        /*only fix left is same value for all boxes and expand functionality disappearing*/
+
         function edit() {
-            const dialog = document.querySelector("dialog");
+
+            const dialog = document.getElementById("dialog2");
 
             dialog.showModal();
-            createForm.inputTitle.setAttribute("value", titleV);
-            createForm.inputDescription.setAttribute("value", descriptionV);
-            createForm.inputDate.setAttribute("value", dateV);
-            p.innerText = `${document.getElementById("title").value}`;
+
+            editform.inputTitle.setAttribute("value", titleV);
+            editform.inputDescription.setAttribute("value", descriptionV);
+            editform.inputDate.setAttribute("value", dateV);
         }
+
 
         div.append(rmBtn, p);
 
@@ -190,7 +211,14 @@ const getInfo = (() => {
 
         div.addEventListener("click", expand);
 
-        editbtn.addEventListener("click", edit);
+
+        editbtn.addEventListener("click", () => {
+            edit(p);
+        });
+
+        //titleV arg is new
+        editform.edit(editform.editButton,p, titleV);
+        editform.form.reset();
 
     }
 
@@ -199,4 +227,98 @@ const getInfo = (() => {
     };
 
     return { submit };
+})();
+
+const editform =(() => {
+
+    const form = document.createElement("form");
+    const editButton = document.createElement("button");
+    const inputTitle = document.createElement("input");
+    const inputDescription = document.createElement("input");
+    const inputDate = document.createElement("input");
+
+     const create = () => {
+
+        const title = document.createElement("label");
+        title.innerHTML = "Title: ";
+        title.htmlFor = "title";
+        
+        inputTitle.setAttribute("type", "text");
+        inputTitle.setAttribute("id", "title2");
+        inputTitle.setAttribute("name", "title2");
+
+        const description = document.createElement("label");
+        description.innerHTML = "Description: ";
+        description.htmlFor = "description";
+
+        inputDescription.setAttribute("type", "text");
+        inputDescription.setAttribute("id", "description2");
+        inputDescription.setAttribute("name", "description2");
+
+        const date = document.createElement("label");
+        date.innerHTML = "Due Date: ";
+        date.htmlFor = "date";
+
+        inputDate.setAttribute("type", "date");
+        inputDate.setAttribute("id", "date2");
+        inputDate.setAttribute("name", "date2");
+
+        const priority = document.createElement("p");
+        priority.innerHTML = "priority: ";
+
+        const inputHighPriority = document.createElement("input");
+        inputHighPriority.setAttribute("type", "radio");
+        inputHighPriority.setAttribute("id", "highPriority");
+        inputHighPriority.setAttribute("name", "priority2");
+        inputHighPriority.setAttribute("value", "High Priority");
+
+        const highPriority = document.createElement("label");
+        highPriority.innerHTML = "High Priority";
+        highPriority.htmlFor = "highPriority";
+
+        const inputLowPriority = document.createElement("input");
+        inputLowPriority.setAttribute("type", "radio");
+        inputLowPriority.setAttribute("id", "lowPriority");
+        inputLowPriority.setAttribute("name", "priority2");
+        inputLowPriority.setAttribute("value", "Low Priority");
+
+        const lowPriority = document.createElement("label");
+        lowPriority.innerHTML = "Low Priority";
+        lowPriority.htmlFor = "lowPriority";
+
+        const radioDiv = document.createElement("div");
+        radioDiv.classList.add("radioDiv");
+        radioDiv.append(inputHighPriority,highPriority,inputLowPriority,lowPriority)
+
+        editButton.innerHTML = "Edit Task";
+        editButton.setAttribute("type","submit");
+
+        form.append(title,inputTitle, description,inputDescription, date,inputDate,  priority,radioDiv, editButton);
+    };
+
+    function editClick(event, p, titleV2){
+        event.preventDefault();
+
+        const titleV = document.getElementById("title2").value;
+        const descriptionV = document.getElementById("description2").value;
+        const dateV = document.getElementById("date2").value;
+        const priorityV = document.querySelector('input[name="priority2"]:checked').value;
+
+        //look into this, every ID changes and every p changes to the same thing
+        // console.log(p.getAttribute('id'));
+        // console.log(titleV2);
+        
+        // if (p.getAttribute('id') === titleV2){
+        //     p.innerText =  `${titleV}\nDue Date: ${dateV}`;
+        // }
+
+    }
+    
+    const edit = (button,p, titleV2) => {
+        button.addEventListener("click", (event) => {
+            editClick(event,p, titleV2);
+        });
+    }
+    return { form, create, inputTitle, inputDescription, inputDate, edit , editButton };
+
 })();
