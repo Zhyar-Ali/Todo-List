@@ -51,7 +51,6 @@ export const layout = (() => {
     getInfo.submit(createForm.submitButton);
 
 
-
     const dialog2 = document.createElement("dialog");
     dialog2.setAttribute("id","dialog2");
 
@@ -62,7 +61,7 @@ export const layout = (() => {
         dialog2.close();
     });
 
-    editform.create()
+    editform.create();
 
     dialog2.append(exitButton2, editform.form);
     body.append(dialog2);
@@ -147,21 +146,18 @@ const createForm = (() => {
 
 const getInfo = (() => {
 
-
     function submitClick(event){
         event.preventDefault();
 
-        const titleV = document.getElementById("title").value;
-        const descriptionV = document.getElementById("description").value;
-        const dateV = document.getElementById("date").value;
-        const priorityV = document.querySelector('input[name="priority"]:checked').value;
+        let titleV = document.getElementById("title").value;
+        let descriptionV = document.getElementById("description").value;
+        let dateV = document.getElementById("date").value;
+        let priorityV = document.querySelector('input[name="priority"]:checked').value;
 
-        const t1 = createTask(titleV, descriptionV, dateV, priorityV);
+        let t1 = createTask(titleV, descriptionV, dateV, priorityV);
 
         const p = document.createElement("p");
         p.classList.add("text");
-        //id is new
-        p.setAttribute("id", `${titleV}`);
         p.innerText =  `${titleV}\nDue Date: ${dateV}`;
 
         const div = document.createElement("div");
@@ -177,6 +173,7 @@ const getInfo = (() => {
 
         const editbtn = document.createElement("button");
         editbtn.innerText = "edit";
+
         function expand() {
             if (p.innerText === `${titleV}\nDue Date: ${dateV}`){
                 p.innerText = t1.formatTask;   
@@ -187,7 +184,7 @@ const getInfo = (() => {
             }
         }
 
-        /*only fix left is same value for all boxes and expand functionality disappearing*/
+        /*only fix left is same value for all boxes after they get edited, otherwise unedited boxes remain same*/
 
         function edit() {
 
@@ -198,8 +195,19 @@ const getInfo = (() => {
             editform.inputTitle.setAttribute("value", titleV);
             editform.inputDescription.setAttribute("value", descriptionV);
             editform.inputDate.setAttribute("value", dateV);
-        }
 
+            editform.editButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                ({ titleV, descriptionV, dateV, priorityV } = editform.editClick());
+
+                t1 = createTask(titleV, descriptionV, dateV, priorityV);
+                p.innerText =  `${titleV}\nDue Date: ${dateV}`;
+                
+            });
+
+            editform.form.reset();
+        }
 
         div.append(rmBtn, p);
 
@@ -211,15 +219,9 @@ const getInfo = (() => {
 
         div.addEventListener("click", expand);
 
-
         editbtn.addEventListener("click", () => {
-            edit(p);
+            edit();
         });
-
-        //titleV arg is new
-        editform.edit(editform.editButton,p, titleV);
-        editform.form.reset();
-
     }
 
     const submit = (button) => {
@@ -296,29 +298,16 @@ const editform =(() => {
         form.append(title,inputTitle, description,inputDescription, date,inputDate,  priority,radioDiv, editButton);
     };
 
-    function editClick(event, p, titleV2){
-        event.preventDefault();
+    function editClick(){
 
         const titleV = document.getElementById("title2").value;
         const descriptionV = document.getElementById("description2").value;
         const dateV = document.getElementById("date2").value;
         const priorityV = document.querySelector('input[name="priority2"]:checked').value;
 
-        //look into this, every ID changes and every p changes to the same thing
-        // console.log(p.getAttribute('id'));
-        // console.log(titleV2);
-        
-        // if (p.getAttribute('id') === titleV2){
-        //     p.innerText =  `${titleV}\nDue Date: ${dateV}`;
-        // }
+        return {titleV, descriptionV, dateV, priorityV};
+    }
 
-    }
-    
-    const edit = (button,p, titleV2) => {
-        button.addEventListener("click", (event) => {
-            editClick(event,p, titleV2);
-        });
-    }
-    return { form, create, inputTitle, inputDescription, inputDate, edit , editButton };
+    return { form, create, inputTitle, inputDescription, inputDate, editClick, editButton};
 
 })();
