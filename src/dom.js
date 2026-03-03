@@ -172,6 +172,7 @@ const getInfo = (() => {
         }
 
         const editbtn = document.createElement("button");
+        editbtn.classList.add("editbtn");
         editbtn.innerText = "edit";
 
         function expand() {
@@ -184,7 +185,7 @@ const getInfo = (() => {
             }
         }
 
-        /*only fix left is same value for all boxes after they get edited, otherwise unedited boxes remain same*/
+        div.append(rmBtn, p);
 
         function edit() {
 
@@ -196,20 +197,18 @@ const getInfo = (() => {
             editform.inputDescription.setAttribute("value", descriptionV);
             editform.inputDate.setAttribute("value", dateV);
 
-            editform.editButton.addEventListener('click', (event) => {
+            editform.editButton.onclick = (event) => {
                 event.preventDefault();
-
                 ({ titleV, descriptionV, dateV, priorityV } = editform.editClick());
 
                 t1 = createTask(titleV, descriptionV, dateV, priorityV);
-                p.innerText =  `${titleV}\nDue Date: ${dateV}`;
+
+                p.innerText =  t1.formatTask;                  
                 
-            });
+            };
 
             editform.form.reset();
         }
-
-        div.append(rmBtn, p);
 
         createForm.form.reset();
 
@@ -219,8 +218,10 @@ const getInfo = (() => {
 
         div.addEventListener("click", expand);
 
-        editbtn.addEventListener("click", () => {
+        editbtn.addEventListener("click", (event) => {
+            event.stopPropagation();
             edit();
+            
         });
     }
 
@@ -270,7 +271,7 @@ const editform =(() => {
 
         const inputHighPriority = document.createElement("input");
         inputHighPriority.setAttribute("type", "radio");
-        inputHighPriority.setAttribute("id", "highPriority");
+        inputHighPriority.setAttribute("id", "highPriority2");
         inputHighPriority.setAttribute("name", "priority2");
         inputHighPriority.setAttribute("value", "High Priority");
 
@@ -280,7 +281,7 @@ const editform =(() => {
 
         const inputLowPriority = document.createElement("input");
         inputLowPriority.setAttribute("type", "radio");
-        inputLowPriority.setAttribute("id", "lowPriority");
+        inputLowPriority.setAttribute("id", "lowPriority2");
         inputLowPriority.setAttribute("name", "priority2");
         inputLowPriority.setAttribute("value", "Low Priority");
 
