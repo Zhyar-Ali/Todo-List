@@ -1,16 +1,17 @@
 import { createForm } from "./creatForm.js";
 import { editform } from "./editForm.js";
 import { getInfo } from "./getInfo.js";
+import { createFolderForm } from "./createFolderForm.js";
 
 export const layout = (() => {
 
     const content = document.createElement("div");
+    const sidebar = document.createElement("div");
 
     const load = () => {
     const body = document.querySelector("body");
     const container = document.getElementById("container");
 
-    const sidebar = document.createElement("div");
     sidebar.classList.add("sidebar");
 
     const folders = document.createElement("div");
@@ -67,8 +68,49 @@ export const layout = (() => {
     dialog2.append(exitButton2, editform.form);
     body.append(dialog2);
 
+
+    createFolderForm.create();
+
+    const folderDialog = document.createElement("dialog");
+    folderDialog.setAttribute('id', 'folderDialog');
+
+    const exitFolderForm = document.createElement("button");
+    exitFolderForm.innerHTML = "X";
+    exitFolderForm.setAttribute("type","button");
+    exitFolderForm.setAttribute("id","exitFolderForm");
+
+    folderDialog.append(exitFolderForm, createFolderForm.form);
+    body.append(folderDialog);
+
+    const allTodoDiv = document.createElement('div');
+    allTodoDiv.textContent = "All ToDos";
+    allTodoDiv.classList.add("folder");
+
+    const addFolderBtn = document.createElement("button");
+    addFolderBtn.classList.add("addFolderBtn");
+    addFolderBtn.innerHTML = "+";
+
+    addFolderBtn.addEventListener("click", () =>{
+        folderDialog.showModal();
+    });
+
+    exitFolderForm.addEventListener("click", () => {
+        folderDialog.close();
+    });
+
+    createFolderForm.submitClick(createFolderForm.submitButton);
+
+    folders.append(allTodoDiv, addFolderBtn);
+
+    /*To-do's:
+        -[]add eventlistener to folders
+        -[]add radio button option to create task and edit task dialog displaying folders
+        -[]have the radio buttons be added dynamically with each new folder added
+        -[]clicking a folder will only show tasks with the name of that folder as class in the content area
+    */
+
     };
 
-    return {load, content};
+    return {load, content, sidebar};
 
 })();
