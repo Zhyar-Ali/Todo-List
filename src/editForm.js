@@ -5,8 +5,9 @@ export const editform =(() => {
     const inputTitle = document.createElement("input");
     const inputDescription = document.createElement("input");
     const inputDate = document.createElement("input");
+    const folderDiv = document.createElement("div");
 
-     const create = () => {
+    const create = () => {
 
         const title = document.createElement("label");
         title.innerHTML = "Title: ";
@@ -57,12 +58,17 @@ export const editform =(() => {
 
         const radioDiv = document.createElement("div");
         radioDiv.classList.add("radioDiv");
-        radioDiv.append(inputHighPriority,highPriority,inputLowPriority,lowPriority)
+        radioDiv.append(inputHighPriority,highPriority,inputLowPriority,lowPriority);
+
+        const folderCatagory = document.createElement("p");
+        folderCatagory.innerHTML = "Catagory: ";
+
+        folderDiv.classList.add("editFolderDiv");
 
         editButton.innerHTML = "Edit Task";
         editButton.setAttribute("type","submit");
 
-        form.append(title,inputTitle, description,inputDescription, date,inputDate,  priority,radioDiv, editButton);
+        form.append(title,inputTitle, description,inputDescription, date,inputDate,  priority,radioDiv, folderCatagory, folderDiv, editButton);
     };
 
     function editClick(){
@@ -75,6 +81,33 @@ export const editform =(() => {
         return {titleV, descriptionV, dateV, priorityV};
     }
 
-    return { form, create, inputTitle, inputDescription, inputDate, editClick, editButton};
+    return { form, create, inputTitle, inputDescription, inputDate, editClick, editButton, folderDiv};
+
+})();
+
+export const dynamicEditRadio = (() => {
+
+    const getFolder = document.getElementsByClassName("folder");
+    const editFolderDiv = editform.folderDiv;
+
+    const addRadio = () => {
+        for (const element of getFolder){
+            const input = document.createElement("input")
+            input.setAttribute("type", "radio");
+            input.setAttribute("id", `${element.textContent}2`);
+            input.setAttribute("name", "folder");
+            input.setAttribute("value", `${element.textContent}2`);
+
+            const label = document.createElement("label");
+            label.innerHTML = element.textContent;
+            label.htmlFor = element.textContent;
+            
+            if (!editFolderDiv.contains(document.getElementById(`${element.textContent}2`))){
+                editFolderDiv.append(input, label);
+            }
+        }
+    };
+
+    return { addRadio };
 
 })();

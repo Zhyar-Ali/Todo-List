@@ -1,7 +1,7 @@
 import createTask from "./todos.js";
 import { createForm } from "./creatForm.js";
-import { layout } from "./dom.js";
-import { editform } from "./editForm.js";
+import { layout} from "./dom.js";
+import { editform, dynamicEditRadio } from "./editForm.js";
 
 export const getInfo = (() => {
 
@@ -77,6 +77,7 @@ export const getInfo = (() => {
 
         editbtn.addEventListener("click", (event) => {
             event.stopPropagation();
+            dynamicEditRadio.addRadio();
             edit();
         });
     }

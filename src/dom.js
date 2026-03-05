@@ -1,4 +1,4 @@
-import { createForm } from "./creatForm.js";
+import { createForm, dynamicRadio } from "./creatForm.js";
 import { editform } from "./editForm.js";
 import { getInfo } from "./getInfo.js";
 import { createFolderForm } from "./createFolderForm.js";
@@ -45,6 +45,7 @@ export const layout = (() => {
 
     addBtn.addEventListener("click", () =>{
         dialog.showModal();
+        dynamicRadio.addRadio();
     });
 
     exitButton.addEventListener("click", () => {
@@ -104,8 +105,8 @@ export const layout = (() => {
 
     /*To-do's:
         -[]add eventlistener to folders
-        -[]add radio button option to create task and edit task dialog displaying folders
-        -[]have the radio buttons be added dynamically with each new folder added
+        -[X]add radio button option to create task and edit task dialog displaying folders
+        -[X]have the radio buttons be added dynamically with each new folder added
         -[]clicking a folder will only show tasks with the name of that folder as class in the content area
     */
 

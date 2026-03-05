@@ -34,6 +34,7 @@ export const createFolderForm = (() => {
             div.classList.add("folder");
 
             folders.append(div);
+            createFolderForm.form.reset();
         }
 
     const submitClick = (button) => {

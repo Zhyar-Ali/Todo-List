@@ -5,6 +5,7 @@ export const createForm = (() => {
     const inputTitle = document.createElement("input");
     const inputDescription = document.createElement("input");
     const inputDate = document.createElement("input");
+    const folderDiv = document.createElement("div");
 
     const create = () => {
 
@@ -57,14 +58,46 @@ export const createForm = (() => {
 
         const radioDiv = document.createElement("div");
         radioDiv.classList.add("radioDiv");
-        radioDiv.append(inputHighPriority,highPriority,inputLowPriority,lowPriority)
+        radioDiv.append(inputHighPriority,highPriority,inputLowPriority,lowPriority);
+
+        const folderCatagory = document.createElement("p");
+        folderCatagory.innerHTML = "Catagory: ";
+
+        folderDiv.classList.add("folderDiv");
 
         submitButton.innerHTML = "Add Task";
         submitButton.setAttribute("type","submit");
         submitButton.setAttribute("id","submit");
 
-        form.append(title,inputTitle, description,inputDescription, date,inputDate,  priority,radioDiv, submitButton);
+        form.append(title,inputTitle, description,inputDescription, date,inputDate,  priority,radioDiv, folderCatagory,folderDiv, submitButton);
     };
 
-    return { form, create, submitButton, inputTitle, inputDescription, inputDate };
+    return { form, create, submitButton, inputTitle, inputDescription, inputDate, folderDiv };
+})();
+
+export const dynamicRadio = (() => {
+
+    const getFolder = document.getElementsByClassName("folder");
+    const folderDiv = createForm.folderDiv;
+
+    const addRadio = () => {
+        for (const element of getFolder){
+            const input = document.createElement("input")
+            input.setAttribute("type", "radio");
+            input.setAttribute("id", element.textContent);
+            input.setAttribute("name", "folder");
+            input.setAttribute("value", element.textContent);
+
+            const label = document.createElement("label");
+            label.innerHTML = element.textContent;
+            label.htmlFor = element.textContent;
+            
+            if (!folderDiv.contains(document.getElementById(element.textContent))){
+                folderDiv.append(input, label);    
+            }
+        }
+    };
+
+    return { addRadio };
+
 })();
