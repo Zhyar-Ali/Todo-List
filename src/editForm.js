@@ -77,8 +77,13 @@ export const editform =(() => {
         const descriptionV = document.getElementById("description2").value;
         const dateV = document.getElementById("date2").value;
         const priorityV = document.querySelector('input[name="priority2"]:checked').value;
+        const catagoryC = document.querySelector('input[name="folder2"]:checked');
+        let catagoryV;
+        if (catagoryC != null) {
+            catagoryV = document.querySelector('input[name="folder2"]:checked').value;
+        }
 
-        return {titleV, descriptionV, dateV, priorityV};
+        return {titleV, descriptionV, dateV, priorityV, catagoryV};
     }
 
     return { form, create, inputTitle, inputDescription, inputDate, editClick, editButton, folderDiv};
@@ -95,14 +100,14 @@ export const dynamicEditRadio = (() => {
             const input = document.createElement("input")
             input.setAttribute("type", "radio");
             input.setAttribute("id", `${element.textContent}2`);
-            input.setAttribute("name", "folder");
-            input.setAttribute("value", `${element.textContent}2`);
+            input.setAttribute("name", "folder2");
+            input.setAttribute("value", `${element.textContent}`);
 
             const label = document.createElement("label");
             label.innerHTML = element.textContent;
             label.htmlFor = element.textContent;
             
-            if (!editFolderDiv.contains(document.getElementById(`${element.textContent}2`))){
+            if (!editFolderDiv.contains(document.getElementById(`${element.textContent}2`))  && element.textContent !== "All ToDos"){
                 editFolderDiv.append(input, label);
             }
         }

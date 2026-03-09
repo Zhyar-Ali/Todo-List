@@ -92,7 +92,7 @@ export const dynamicRadio = (() => {
             label.innerHTML = element.textContent;
             label.htmlFor = element.textContent;
             
-            if (!folderDiv.contains(document.getElementById(element.textContent))){
+            if (!folderDiv.contains(document.getElementById(element.textContent)) && element.textContent !== "All ToDos"){
                 folderDiv.append(input, label);    
             }
         }

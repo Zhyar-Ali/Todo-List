@@ -12,6 +12,14 @@ export const getInfo = (() => {
         let descriptionV = document.getElementById("description").value;
         let dateV = document.getElementById("date").value;
         let priorityV = document.querySelector('input[name="priority"]:checked').value;
+        let catagoryC = document.querySelector('input[name="folder"]:checked');
+        let catagoryV;
+        let noSpaceCata;
+        if (catagoryC != null){
+            catagoryV = document.querySelector('input[name="folder"]:checked').value;
+            noSpaceCata = catagoryV.replace(/\s/g,"");
+        }
+        
 
         let t1 = createTask(titleV, descriptionV, dateV, priorityV);
 
@@ -20,7 +28,10 @@ export const getInfo = (() => {
         p.innerText =  `${titleV}\nDue Date: ${dateV}`;
 
         const div = document.createElement("div");
-        div.classList.add("tasks");
+        div.classList.add("tasks", "allTasks");
+        if (noSpaceCata !== undefined){
+            div.classList.add(noSpaceCata);
+        }
 
         const rmBtn = document.createElement("button");
         rmBtn.innerText = "X";
@@ -58,11 +69,19 @@ export const getInfo = (() => {
 
             editform.editButton.onclick = (event) => {
                 event.preventDefault();
-                ({ titleV, descriptionV, dateV, priorityV } = editform.editClick());
+                ({ titleV, descriptionV, dateV, priorityV, catagoryV } = editform.editClick());
+                div.classList.remove(noSpaceCata);
+
+                if (noSpaceCata !== undefined){
+                    noSpaceCata = catagoryV.replace(/\s/g,"");
+                }
 
                 t1 = createTask(titleV, descriptionV, dateV, priorityV);
 
-                p.innerText =  t1.formatTask;                  
+                p.innerText =  t1.formatTask;  
+                if (noSpaceCata !== undefined){
+                    div.classList.add(noSpaceCata); 
+                }               
             };
             editform.form.reset();
         }
