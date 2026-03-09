@@ -103,15 +103,35 @@ export const layout = (() => {
 
     folders.append(allTodoDiv, addFolderBtn);
 
-    /*To-do's:
-        -[]add eventlistener to folders
-        -[X]add radio button option to create task and edit task dialog displaying folders
-        -[X]have the radio buttons be added dynamically with each new folder added
-        -[]clicking a folder will only show tasks with the name of that folder as class in the content area
-    */
+    folderEvent.click(allTodoDiv);
 
     };
 
     return {load, content, sidebar};
 
+})();
+
+export const folderEvent = (() => {
+
+    function display(div) {
+        const showClass = div.textContent.replace(/\s/g,"");
+        let child = layout.content.getElementsByTagName("div");
+
+        for (let i=0; i < child.length; i++){
+            var childDiv = child[i];
+            if (!childDiv.classList.contains(showClass)){
+                childDiv.style.display = "none";
+            }else {
+                childDiv.style.display = "block";
+            }
+        }
+    }
+
+    const click = (div) => {
+        div.addEventListener("click", () => {
+            display(div);     
+        });
+    };
+
+    return { click };
 })();

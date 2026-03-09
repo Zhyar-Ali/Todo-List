@@ -1,4 +1,4 @@
-import { layout } from "./dom.js";
+import { layout, folderEvent } from "./dom.js";
 
 export const createFolderForm = (() => {
 
@@ -35,6 +35,7 @@ export const createFolderForm = (() => {
 
             folders.append(div);
             createFolderForm.form.reset();
+            folderEvent.click(div);
         }
 
     const submitClick = (button) => {

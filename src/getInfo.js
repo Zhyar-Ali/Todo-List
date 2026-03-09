@@ -28,7 +28,7 @@ export const getInfo = (() => {
         p.innerText =  `${titleV}\nDue Date: ${dateV}`;
 
         const div = document.createElement("div");
-        div.classList.add("tasks", "allTasks");
+        div.classList.add("tasks", "AllToDos");
         if (noSpaceCata !== undefined){
             div.classList.add(noSpaceCata);
         }
