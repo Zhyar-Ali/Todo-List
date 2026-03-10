@@ -1,4 +1,5 @@
 import { layout, folderEvent } from "./dom.js";
+import { save,load2 } from "./localStorageFunctions.js";
 
 export const createFolderForm = (() => {
 
@@ -32,14 +33,18 @@ export const createFolderForm = (() => {
             const div = document.createElement("div");
             div.textContent = folder;
             div.classList.add("folder");
+            // save.saveFolder();
 
             folders.append(div);
             createFolderForm.form.reset();
-            folderEvent.click(div);
+            folderEvent.click(div); 
         }
 
     const submitClick = (button) => {
-        button.addEventListener("click", submit);
+        button.addEventListener("click", (event) => {
+            submit(event);
+            save.saveFolder();
+        });
     };
 
     return { form, create, submitButton, inputTitle, submitClick };

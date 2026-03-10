@@ -2,6 +2,7 @@ import { createForm, dynamicRadio } from "./creatForm.js";
 import { editform } from "./editForm.js";
 import { getInfo } from "./getInfo.js";
 import { createFolderForm } from "./createFolderForm.js";
+import { load2 } from "./localStorageFunctions.js";
 
 export const layout = (() => {
 
@@ -102,6 +103,8 @@ export const layout = (() => {
     createFolderForm.submitClick(createFolderForm.submitButton);
 
     folders.append(allTodoDiv, addFolderBtn);
+
+    load2.loadIt();
 
     folderEvent.click(allTodoDiv);
 
