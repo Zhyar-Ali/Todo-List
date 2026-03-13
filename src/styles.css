@@ -112,3 +112,13 @@ form{
 .addFolderBtn:hover{
     cursor: pointer;
 }
+#allDiv{
+    display: block;
+}
+.folder{
+    display: grid;
+    grid-template-columns: 1fr 7fr;
+}
+.rmBtnFolder{
+    grid-area: 1 / 1 / 2 / 2;
+}

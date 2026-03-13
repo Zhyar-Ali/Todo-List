@@ -33,7 +33,16 @@ export const createFolderForm = (() => {
             const div = document.createElement("div");
             div.textContent = folder;
             div.classList.add("folder");
-            // save.saveFolder();
+            
+            const rmBtn = document.createElement("button");
+            rmBtn.innerText = "X";
+            rmBtn.classList.add("rmBtnFolder");
+
+            rmBtn.addEventListener("click", () => {
+                div.remove();
+            });
+
+            div.append(rmBtn);
 
             folders.append(div);
             createFolderForm.form.reset();

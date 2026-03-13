@@ -87,6 +87,7 @@ export const layout = (() => {
     const allTodoDiv = document.createElement('div');
     allTodoDiv.textContent = "All ToDos";
     allTodoDiv.classList.add("folder");
+    allTodoDiv.setAttribute("id", "allDiv");
 
     const addFolderBtn = document.createElement("button");
     addFolderBtn.classList.add("addFolderBtn");
