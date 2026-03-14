@@ -82,29 +82,35 @@ export const dynamicRadio = (() => {
 
     const addRadio = () => {
         for (const element of getFolder){
-            let test;
+            let actualText;
             element.childNodes.forEach(node => {
                 if (node.nodeType === node.TEXT_NODE){
-                    test = node.nodeValue;
+                    actualText = node.nodeValue;
                 }
             })
            
             const input = document.createElement("input")
             input.setAttribute("type", "radio");
-            input.setAttribute("id", test);
+            input.setAttribute("id", actualText);
             input.setAttribute("name", "folder");
-            input.setAttribute("value", test);
+            input.setAttribute("value", actualText);
 
             const label = document.createElement("label");
-            label.innerHTML = test;
-            label.htmlFor = test;
+            label.innerHTML = actualText;
+            label.htmlFor = actualText;
             
-            if (!folderDiv.contains(document.getElementById(test)) && test !== "All ToDos"){
+            if (!folderDiv.contains(document.getElementById(actualText)) && actualText !== "All ToDos"){
                 folderDiv.append(input, label);    
             }
         }
     };
 
-    return { addRadio };
+    const removeRadio = (actualText) => {
+        if (folderDiv.contains(document.getElementById(actualText)) && actualText !== "All ToDos"){
+            folderDiv.remove();
+        }
+    };
+
+    return { addRadio,removeRadio};
 
 })();

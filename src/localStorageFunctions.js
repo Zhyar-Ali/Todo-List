@@ -1,4 +1,4 @@
-import { layout } from "./dom.js";
+import { layout, folderEvent } from "./dom.js";
 
 export const save = (() => {
 
@@ -16,16 +16,16 @@ export const save = (() => {
         });
     }
 
-
     return { saveFolder };
 })();
 
 export const load2 = (() => {
 
+    const parser = new DOMParser();
+    const array = JSON.parse(localStorage.getItem("myArray"));
+
     function loadFolder() {
-        const parser = new DOMParser();
         const folders = layout.sidebar.firstChild;
-        const array = JSON.parse(localStorage.getItem("myArray"));
 
         if (array !== null){
             for (const items of array){
@@ -45,14 +45,16 @@ export const load2 = (() => {
                     localStorage.removeItem(restoredDiv.outerHTML);
                     localStorage.setItem("myArray", JSON.stringify(array));
                 });
+
+                folderEvent.click(restoredDiv); 
             }
         }
-
     }
 
     const loadIt = () => {
         loadFolder();
     };
+
 
     return { loadIt };
 

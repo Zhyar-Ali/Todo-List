@@ -118,7 +118,14 @@ export const layout = (() => {
 export const folderEvent = (() => {
 
     function display(div) {
-        const showClass = div.textContent.replace(/\s/g,"");
+        let actualText;
+        div.childNodes.forEach(node => {
+            if (node.nodeType === node.TEXT_NODE){
+                actualText = node.nodeValue;
+            }
+        })
+        
+        const showClass = actualText.replace(/\s/g,"");
         let child = layout.content.getElementsByTagName("div");
 
         for (let i=0; i < child.length; i++){

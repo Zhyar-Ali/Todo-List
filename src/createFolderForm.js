@@ -1,5 +1,6 @@
 import { layout, folderEvent } from "./dom.js";
-import { save,load2 } from "./localStorageFunctions.js";
+import { save } from "./localStorageFunctions.js";
+import { dynamicRadio } from "./creatForm.js";
 
 export const createFolderForm = (() => {
 
@@ -38,7 +39,15 @@ export const createFolderForm = (() => {
             rmBtn.innerText = "X";
             rmBtn.classList.add("rmBtnFolder");
 
+            let actualText;
+            div.childNodes.forEach(node => {
+                if (node.nodeType === node.TEXT_NODE){
+                    actualText = node.nodeValue;
+                }
+            })
+
             rmBtn.addEventListener("click", () => {
+                dynamicRadio.removeRadio(actualText);
                 div.remove();
             });
 
