@@ -2,8 +2,19 @@ import createTask from "./todos.js";
 import { createForm } from "./creatForm.js";
 import { layout} from "./dom.js";
 import { editform, dynamicEditRadio } from "./editForm.js";
+import { save } from "./localStorageFunctions.js";
 
 export const getInfo = (() => {
+
+    function expand (p,titleV,dateV,t1,div, editbtn) {
+        if (p.innerText === `${titleV}\nDue Date: ${dateV}`){
+            p.innerText = t1;   
+            div.append(editbtn);
+        }else if (p.innerText === t1){
+            p.innerText =  `${titleV}\nDue Date: ${dateV}`;
+            editbtn.remove();
+        }
+    }
 
     function submitClick(event){
         event.preventDefault();
@@ -45,16 +56,6 @@ export const getInfo = (() => {
         editbtn.classList.add("editbtn");
         editbtn.innerText = "edit";
 
-        function expand() {
-            if (p.innerText === `${titleV}\nDue Date: ${dateV}`){
-                p.innerText = t1.formatTask;   
-                div.append(editbtn);
-            }else if (p.innerText === t1.formatTask){
-                p.innerText =  `${titleV}\nDue Date: ${dateV}`;
-                editbtn.remove();
-            }
-        }
-
         div.append(rmBtn, p);
 
         function edit() {
@@ -92,18 +93,23 @@ export const getInfo = (() => {
 
         rmBtn.addEventListener("click", rm);
 
-        div.addEventListener("click", expand);
+        div.addEventListener("click", () => {
+            expand(p,titleV,dateV,t1.formatTask,div, editbtn);
+        });
 
         editbtn.addEventListener("click", (event) => {
             event.stopPropagation();
             dynamicEditRadio.addRadio();
             edit();
         });
+        save.saveDiv(t1);
     }
 
     const submit = (button) => {
-        button.addEventListener("click", submitClick);
+        button.addEventListener("click", (event) => {
+            submitClick(event);
+        });
     };
 
-    return { submit };
+    return { submit, expand };
 })();

@@ -106,6 +106,7 @@ export const layout = (() => {
     folders.append(allTodoDiv, addFolderBtn);
 
     load2.loadIt();
+    load2.loadDiv();
 
     folderEvent.click(allTodoDiv);
 
