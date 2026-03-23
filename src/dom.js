@@ -124,8 +124,7 @@ export const folderEvent = (() => {
             if (node.nodeType === node.TEXT_NODE){
                 actualText = node.nodeValue;
             }
-        })
-        
+        })      
         const showClass = actualText.replace(/\s/g,"");
         let child = layout.content.getElementsByTagName("div");
 

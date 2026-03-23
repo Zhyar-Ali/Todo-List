@@ -15,6 +15,7 @@ export const getInfo = (() => {
             editbtn.remove();
         }
     }
+    const arrayTask= [];
 
     function submitClick(event){
         event.preventDefault();
@@ -87,6 +88,8 @@ export const getInfo = (() => {
             editform.form.reset();
         }
 
+        arrayTask.push(t1);
+
         createForm.form.reset();
 
         layout.content.append(div);
@@ -102,7 +105,7 @@ export const getInfo = (() => {
             dynamicEditRadio.addRadio();
             edit();
         });
-        save.saveDiv(t1);
+        save.saveDiv(arrayTask);
     }
 
     const submit = (button) => {
