@@ -1,6 +1,7 @@
 import { layout, folderEvent } from "./dom.js";
 import { getInfo } from "./getInfo.js";
-import createTask from "./todos.js";
+import { dynamicEditRadio } from "./editForm.js";
+
 
 const test = (() => {
     const array = [];
@@ -37,7 +38,6 @@ export const save = (() => {
     }
 
     function saveDiv (task) {
-        console.log(testArray);
         
         const div = document.querySelectorAll(".AllToDos")
         div.forEach(p => {
@@ -114,18 +114,40 @@ export const load2 = (() => {
                 const doc = parser.parseFromString(items,'text/html');
                 const restoredDiv = doc.body.firstChild;
                 const index = arrayDiv.indexOf(items);
-                let t1;
-                let title;
-                let date;
+                const taskObj = arrayTask[index]; 
                 
-                if (arrayTask[index] != undefined){
-                    t1 = arrayTask[index]
-                    title= t1.title;
-                    date = t1.date;
+                let t1 = null;
+                let title = "";
+                let date = "";
+                let description = "";
+                let priority = "";
+                
+                if(taskObj) {
+                    t1 = taskObj;
+                    title = taskObj.title;
+                    date = taskObj.date;
+                    description = taskObj.description;
+                    priority = taskObj.priority;
                 }
+
+                restoredDiv.taskData = {
+                    t1,
+                    titleV: title,
+                    dateV: date,
+                    descriptionV: description,
+                    priorityV: priority
+                };
+                restoredDiv.isExpanded = false;
+    
                 const p = restoredDiv.querySelector(".text");
                 
                 const rmBtn = restoredDiv.querySelector(".rmBtn");
+
+                let catagoryC = document.querySelector('input[name="folder"]:checked');
+                let catagoryV;
+                if (catagoryC != null){
+                    catagoryV = document.querySelector('input[name="folder"]:checked').value;
+                }
 
                 divs.append(restoredDiv);
                 
@@ -146,12 +168,15 @@ export const load2 = (() => {
 
                 if (title != undefined) {
                     restoredDiv.addEventListener("click", () => {
-                        getInfo.expand(p,title,date,t1.formatTask,restoredDiv,editbtn);
+                        getInfo.expand(p,restoredDiv,editbtn);
                     });
-                }
-                
-
-                //only edit button left to localstore
+                }      
+             
+                editbtn.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    dynamicEditRadio.addRadio();
+                    getInfo.edit(restoredDiv.taskData.titleV,restoredDiv.taskData.descriptionV,restoredDiv.taskData.dateV, restoredDiv.taskData.priorityV, catagoryV,restoredDiv.taskData.t1,restoredDiv,p, editbtn);
+                })
             }
         }
     }

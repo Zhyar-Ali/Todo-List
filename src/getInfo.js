@@ -6,16 +6,80 @@ import { save } from "./localStorageFunctions.js";
 
 export const getInfo = (() => {
 
-    function expand (p,titleV,dateV,t1,div, editbtn) {
-        if (p.innerText === `${titleV}\nDue Date: ${dateV}`){
-            p.innerText = t1;   
+    function expand (p,div, editbtn) {  
+        if (div.isExpanded == false) {
+            p.innerText = div.taskData.t1.formatTask;   
             div.append(editbtn);
-        }else if (p.innerText === t1){
-            p.innerText =  `${titleV}\nDue Date: ${dateV}`;
+            div.isExpanded = true;
+        }else {
+            p.innerText =  `${div.taskData.titleV}\nDue Date: ${div.taskData.dateV}`;
             editbtn.remove();
+            div.isExpanded = false;
         }
     }
+
     const arrayTask= [];
+
+    function edit(titleV, descriptionV, dateV, priorityV, catagoryV, t1, div, p, editbtn) {
+
+        const dialog = document.getElementById("dialog2");
+
+        dialog.showModal();
+
+        editform.inputTitle.setAttribute("value", titleV);
+        editform.inputDescription.setAttribute("value", descriptionV);
+        editform.inputDate.setAttribute("value", dateV);
+
+        editform.editButton.onclick = (event) => {
+            event.preventDefault();
+            ({ titleV, descriptionV, dateV, priorityV, catagoryV } = editform.editClick());
+            
+            div.removeAttribute('class');
+            
+            let catagoryC = document.querySelector('input[name="folder2"]:checked');
+            let noSpaceCata;
+            if (catagoryC != null){
+                catagoryV = document.querySelector('input[name="folder2"]:checked').value;
+                noSpaceCata = catagoryV.replace(/\s/g,"");
+            }  
+
+            if (noSpaceCata !== undefined){
+                noSpaceCata = catagoryV.replace(/\s/g,"");   
+            }
+
+            t1 = createTask(titleV, descriptionV, dateV, priorityV);
+
+            div.taskData ={
+                titleV,
+                descriptionV,
+                dateV,
+                priorityV,
+                catagoryV,
+                t1
+            };
+            p.innerText =  t1.formatTask;  
+            div.classList.add("tasks", "AllToDos");
+            if (noSpaceCata !== undefined){
+                div.classList.add(noSpaceCata); 
+            }     
+
+            const arrayDiv = JSON.parse(localStorage.getItem("myArrayDiv"));
+            const arrayTask = JSON.parse(localStorage.getItem("myArrayTask"));
+            const allDivs = Array.from(document.querySelectorAll(".AllToDos"));
+            const index = allDivs.indexOf(div);
+            if (index !== -1) {
+                arrayTask[index] = {
+                    ...t1,
+                };
+                expand(p,div,editbtn);
+                arrayDiv[index] = div.outerHTML;
+                
+                localStorage.setItem("myArrayDiv", JSON.stringify(arrayDiv));
+                localStorage.setItem("myArrayTask", JSON.stringify(arrayTask));
+            }
+        };
+        editform.form.reset();
+    }
 
     function submitClick(event){
         event.preventDefault();
@@ -30,8 +94,7 @@ export const getInfo = (() => {
         if (catagoryC != null){
             catagoryV = document.querySelector('input[name="folder"]:checked').value;
             noSpaceCata = catagoryV.replace(/\s/g,"");
-        }
-        
+        }  
 
         let t1 = createTask(titleV, descriptionV, dateV, priorityV);
 
@@ -44,6 +107,16 @@ export const getInfo = (() => {
         if (noSpaceCata !== undefined){
             div.classList.add(noSpaceCata);
         }
+
+        div.isExpanded = false;
+        div.taskData = {
+            titleV,
+            descriptionV,
+            dateV,
+            priorityV,
+            catagoryV,
+            t1
+        };
 
         const rmBtn = document.createElement("button");
         rmBtn.innerText = "X";
@@ -59,35 +132,6 @@ export const getInfo = (() => {
 
         div.append(rmBtn, p);
 
-        function edit() {
-
-            const dialog = document.getElementById("dialog2");
-
-            dialog.showModal();
-
-            editform.inputTitle.setAttribute("value", titleV);
-            editform.inputDescription.setAttribute("value", descriptionV);
-            editform.inputDate.setAttribute("value", dateV);
-
-            editform.editButton.onclick = (event) => {
-                event.preventDefault();
-                ({ titleV, descriptionV, dateV, priorityV, catagoryV } = editform.editClick());
-                div.classList.remove(noSpaceCata);
-
-                if (noSpaceCata !== undefined){
-                    noSpaceCata = catagoryV.replace(/\s/g,"");
-                }
-
-                t1 = createTask(titleV, descriptionV, dateV, priorityV);
-
-                p.innerText =  t1.formatTask;  
-                if (noSpaceCata !== undefined){
-                    div.classList.add(noSpaceCata); 
-                }               
-            };
-            editform.form.reset();
-        }
-
         arrayTask.push(t1);
 
         createForm.form.reset();
@@ -97,13 +141,13 @@ export const getInfo = (() => {
         rmBtn.addEventListener("click", rm);
 
         div.addEventListener("click", () => {
-            expand(p,titleV,dateV,t1.formatTask,div, editbtn);
+            expand(p,div, editbtn);
         });
 
         editbtn.addEventListener("click", (event) => {
             event.stopPropagation();
             dynamicEditRadio.addRadio();
-            edit();
+            edit(titleV,descriptionV,dateV, priorityV, catagoryV,t1,div,p, editbtn);
         });
         save.saveDiv(arrayTask);
     }
@@ -114,5 +158,5 @@ export const getInfo = (() => {
         });
     };
 
-    return { submit, expand };
+    return { submit, expand, edit };
 })();

@@ -97,22 +97,34 @@ export const dynamicEditRadio = (() => {
 
     const addRadio = () => {
         for (const element of getFolder){
+            let actualText;
+            element.childNodes.forEach(node => {
+                if (node.nodeType === node.TEXT_NODE){
+                    actualText = node.nodeValue;
+                }
+            })
             const input = document.createElement("input")
             input.setAttribute("type", "radio");
-            input.setAttribute("id", `${element.textContent}2`);
+            input.setAttribute("id", `${actualText}2`);
             input.setAttribute("name", "folder2");
-            input.setAttribute("value", `${element.textContent}`);
+            input.setAttribute("value", `${actualText}`);
 
             const label = document.createElement("label");
-            label.innerHTML = element.textContent;
-            label.htmlFor = element.textContent;
+            label.innerHTML = actualText;
+            label.htmlFor = actualText;
             
-            if (!editFolderDiv.contains(document.getElementById(`${element.textContent}2`))  && element.textContent !== "All ToDos"){
+            if (!editFolderDiv.contains(document.getElementById(`${actualText}2`))  && element.textContent !== "All ToDos"){
                 editFolderDiv.append(input, label);
             }
         }
     };
 
-    return { addRadio };
+    const removeRadio = (actualText) => {
+        if (folderDiv.contains(document.getElementById(`${actualText}2`)) && actualText !== "All ToDos"){
+            folderDiv.remove();
+        }
+    };
+
+    return { addRadio, removeRadio };
 
 })();
